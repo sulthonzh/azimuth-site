@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>azimuth — the OS that doesn't let apps run wild</title>
+<meta name="description" content="Capability-based operating system written in Rust. Apps physically cannot do what you didn't authorize. Runs Linux drivers.">
+<style>
+:root{--bg:#0a0a0b;--surface:#141415;--border:#262627;--text:#e5e5e5;--text-muted:#737373;--accent:#22d3ee;--accent-dim:#0e7490}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'SF Pro Display','Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.hero{max-width:900px;margin:0 auto;padding:120px 24px 80px;text-align:center}
+.hero h1{font-size:clamp(3rem,8vw,5rem);font-weight:400;letter-spacing:-.03em;margin-bottom:16px}
+.hero .tagline{font-size:1.25rem;color:var(--text-muted);margin-bottom:48px}
+.hero .tagline strong{color:var(--accent);font-weight:500}
+.cta{display:flex;gap:16px;justify-content:center;margin-bottom:96px}
+.cta a{display:inline-block;padding:14px 32px;border-radius:10px;text-decoration:none;font-size:1rem;font-weight:500;transition:background .2s}
+.cta .primary{background:var(--accent);color:var(--bg)}
+.cta .primary:hover{background:var(--accent-dim)}
+.cta .secondary{background:var(--surface);color:var(--text);border:1px solid var(--border)}
+.cta .secondary:hover{border-color:var(--text-muted)}
+.features{max-width:900px;margin:0 auto;padding:0 24px 96px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.feature{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:32px}
+.feature h2{font-size:1.125rem;font-weight:500;margin-bottom:8px;color:var(--accent)}
+.feature p{font-size:.9rem;color:var(--text-muted)}
+.metrics{max-width:900px;margin:0 auto;padding:0 24px 96px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;text-align:center}
+.metric .value{font-size:2.5rem;font-weight:400;font-variant-numeric:tabular-nums;color:var(--text)}
+.metric .label{font-size:.8rem;color:var(--text-muted);margin-top:4px}
+.comparison{max-width:900px;margin:0 auto;padding:0 24px 96px}
+.comparison table{width:100%;border-collapse:collapse;font-size:.9rem}
+.comparison th{text-align:left;padding:12px 16px;color:var(--text-muted);font-weight:400;font-size:.8rem;border-bottom:1px solid var(--border)}
+.comparison td{padding:12px 16px;border-bottom:1px solid var(--border)}
+.comparison .azimuth-col{color:var(--accent)}
+footer{max-width:900px;margin:0 auto;padding:0 24px 48px;text-align:center;color:var(--text-muted);font-size:.8rem}
+footer a{color:var(--text-muted);text-decoration:none}
+footer a:hover{color:var(--text)}
+</style>
+</head>
+<body>
+<section class="hero">
+<h1>azimuth</h1>
+<p class="tagline">The OS where apps <strong>physically cannot</strong> do what you didn't authorize.</p>
+<div class="cta">
+<a class="primary" href="https://github.com/sulthonzh/azimud-kernel/releases">Download</a>
+<a class="secondary" href="https://github.com/sulthonzh/azimud-kernel">GitHub</a>
+<a class="secondary" href="/docs">Documentation</a>
+</div>
+</section>
+<section class="features">
+<div class="feature"><h2>Capability Security</h2><p>Every app gets explicit capabilities, not blanket permissions. An app can't read your files, access the network, or talk to hardware you didn't grant it access to. Enforced by the kernel, not by promises.</p></div>
+<div class="feature"><h2>Budget Accounting</h2><p>Apps can't starve the system. CPU time, memory, and I/O are budgeted per app. A runaway process hits its ceiling and stops — your other apps keep running.</p></div>
+<div class="feature"><h2>Linux Drivers</h2><p>Runs the entire Linux driver ecosystem (15M+ lines) through an isolated driver cell. WiFi, GPU, USB, NVMe — if it works on Linux, it works on azimuth.</p></div>
+<div class="feature"><h2>Written in Rust</h2><p>Memory-safe by construction. No buffer overflows, no use-after-free, no data races. The entire kernel is Rust with unsafe forbidden by default.</p></div>
+</section>
+<section class="metrics">
+<div class="metric"><div class="value">1,347</div><div class="label">tests passing</div></div>
+<div class="metric"><div class="value">74K</div><div class="label">lines of Rust</div></div>
+<div class="metric"><div class="value">3</div><div class="label">architectures</div></div>
+<div class="metric"><div class="value">0</div><div class="label">unsafe blocks in core</div></div>
+</section>
+<section class="comparison">
+<table>
+<thead><tr><th></th><th>azimuth</th><th>Linux</th><th>Windows</th></tr></thead>
+<tbody>
+<tr><td>App permissions model</td><td class="azimuth-col">Capability-based (kernel enforced)</td><td>UID/GID (advisory)</td><td>ACLs (advisory)</td></tr>
+<tr><td>Can an app read your files?</td><td class="azimuth-col">Only if you granted it</td><td>If it runs as your user</td><td>If it runs as your user</td></tr>
+<tr><td>Can an app use 100% CPU?</td><td class="azimuth-col">No — budget-capped</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>Memory safety</td><td class="azimuth-col">Rust (safe by construction)</td><td>C (unsafe)</td><td>C++ (unsafe)</td></tr>
+<tr><td>Hardware support</td><td class="azimuth-col">Via Linux driver cell</td><td>Native (15M+ lines)</td><td>Native (vendor-supplied)</td></tr>
+</tbody>
+</table>
+</section>
+<footer>
+<p>azimuth (the OS) · azimud (the kernel) · <a href="https://github.com/sulthonzh/azimud-kernel">source</a> · MIT/Apache-2.0</p>
+</footer>
+</body>
+</html>
